@@ -4,8 +4,6 @@ const { animals } = require("./data/animals");
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-// use the express-static middleware
-app.use(express.static("public"))
 
 function filterByQuery(query, animalsArray) {
     let personalityTraitsArray = [];
