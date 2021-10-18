@@ -13,6 +13,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // The express.json() method we used takes incoming POST data in the form of JSON and parses it into the req.body JavaScript object. Both of the above middleware functions need to be set up every time you create a server that's looking to accept POST data.
 
+app.use(express.static("public"));
+// The way it works is that we provide a file path to a location in our application (in this case, the public folder) and instruct the server to make these files static resources. This means that all of our front-end code can now be accessed without having a specific server endpoint created for it!
+
+// Every time we create a server that will serve a front end as well as JSON data, we'll always want to use this middleware.
+
+
+
 function filterByQuery(query, animalsArray) {
     let personalityTraitsArray = [];
     // Note that we save the animalsArray as filteredResults here:
@@ -117,6 +124,22 @@ app.get("/api/animals/:id", (req, res) => {
     } else {
         res.send(404);
     }
+});
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "./public/index.html"));
+});
+
+app.get("/animals", (req, res) => {
+    res.sendFile(path.join(__dirname, "./public/animals.html"));
+});
+
+app.get("/zookeepers", (req, res) => {
+    res.sendFile(path.join(__dirname, "./public/zookeepers.html"));
+});
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 app.listen(PORT, () => {
